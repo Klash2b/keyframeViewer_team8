@@ -1,9 +1,7 @@
 # keyframeViewer_team8
  Défi JellySmack Team 8
 
-[![Build Status](https://travis-ci.org/c4software/vuejs-cordova-sample.svg?branch=master)](https://travis-ci.org/c4software/vuejs-cordova-sample)
-
-> Sample VueJS app thats use Cordova capabilities
+> Application VueJS permettant de résumer des vidéo sous forme de keyframes
 
 ![Demo screenshot](demo.png)
 
@@ -21,7 +19,7 @@ npm run build
 
 ```
 
-## First Cordova build
+<!-- ## First Cordova build
 
 Run the command :
 
@@ -36,15 +34,9 @@ cordova run # or build
 
 ```sh
 npm run cordova_run # or cordova_build
-```
+``` -->
 
-## Plugins
+## Technos utilisées
 
-- cordova-plugin-dialogs
-- cordova-plugin-vibration
-- cordova-plugin-geolocation
-- cordova-plugin-flashlight
-- cordova-plugin-camera
-- phonegap-nfc
-- cordova-plugin-statusbar
-- cordova-plugin-headercolor
+- VueJS
+- OpenCV
