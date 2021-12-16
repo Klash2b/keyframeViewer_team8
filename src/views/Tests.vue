@@ -1,6 +1,16 @@
 <template>
-  <div class="myContainer">
-    Tests
+  <div id="video-demo-container">
+    <button id="upload-button">Select MP4 Video</button>
+    <input type="file" id="file-to-upload" accept="video/mp4" />
+    <video id="main-video" controls>
+      <source type="video/mp4" />
+    </video>
+    <canvas id="video-canvas"></canvas>
+    <div id="thumbnail-container">
+      Seek to
+      <select id="set-video-seconds"></select>
+      seconds <a id="get-thumbnail" href="#">Download Thumbnail</a>
+    </div>
   </div>
 </template>
 
@@ -17,37 +27,155 @@ export default {
     checkFile(file) {
       console.log(file);
       this.currFile = file;
+
+      document
+        .querySelector("#main-video source")
+        .setAttribute("src", URL.createObjectURL(file));
+      _VIDEO.load();
+      _VIDEO.style.display = "inline";
     },
   },
-  mounted() {},
+  mounted() {
+    var _CANVAS = document.querySelector("#video-canvas"),
+      _CTX = _CANVAS.getContext("2d"),
+      _VIDEO = document.querySelector("#main-video");
+
+    // Upon click this should should trigger click on the #file-to-upload file input element
+    // This is better than showing the not-good-looking file input element
+    document
+      .querySelector("#upload-button")
+      .addEventListener("click", function() {
+        document.querySelector("#file-to-upload").click();
+      });
+
+    // When user chooses a MP4 file
+    document
+      .querySelector("#file-to-upload")
+      .addEventListener("change", function() {
+        // Validate whether MP4
+        if (
+          ["video/mp4"].indexOf(
+            document.querySelector("#file-to-upload").files[0].type
+          ) == -1
+        ) {
+          alert("Error : Only MP4 format allowed");
+          return;
+        }
+
+        // Hide upload button
+        document.querySelector("#upload-button").style.display = "none";
+
+        // Object Url as the video source
+        document
+          .querySelector("#main-video source")
+          .setAttribute(
+            "src",
+            URL.createObjectURL(
+              document.querySelector("#file-to-upload").files[0]
+            )
+          );
+
+        // Load the video and show it
+        _VIDEO.load();
+        _VIDEO.style.display = "inline";
+
+        // Load metadata of the video to get video duration and dimensions
+        _VIDEO.addEventListener("loadedmetadata", function() {
+          console.log(_VIDEO.duration);
+          var video_duration = _VIDEO.duration,
+            duration_options_html = "";
+
+          // Set options in dropdown at 4 second interval
+          for (var i = 0; i < Math.floor(video_duration); i = i + 16) {
+            duration_options_html +=
+              '<option value="' + i + '">' + i + "</option>";
+          }
+          document.querySelector(
+            "#set-video-seconds"
+          ).innerHTML = duration_options_html;
+
+          // Show the dropdown container
+          document.querySelector("#thumbnail-container").style.display =
+            "block";
+
+          // Set canvas dimensions same as video dimensions
+          _CANVAS.width = _VIDEO.videoWidth;
+          _CANVAS.height = _VIDEO.videoHeight;
+        });
+      });
+
+    // On changing the duration dropdown, seek the video to that duration
+    document
+      .querySelector("#set-video-seconds")
+      .addEventListener("change", function() {
+        _VIDEO.currentTime = document.querySelector("#set-video-seconds").value;
+
+        // Seeking might take a few milliseconds, so disable the dropdown and hide download link
+        document.querySelector("#set-video-seconds").disabled = true;
+        document.querySelector("#get-thumbnail").style.display = "none";
+      });
+
+    // Seeking video to the specified duration is complete
+    document
+      .querySelector("#main-video")
+      .addEventListener("timeupdate", function() {
+        // Re-enable the dropdown and show the Download link
+        document.querySelector("#set-video-seconds").disabled = false;
+        document.querySelector("#get-thumbnail").style.display = "inline";
+      });
+
+    // On clicking the Download button set the video in the canvas and download the base-64 encoded image data
+    document
+      .querySelector("#get-thumbnail")
+      .addEventListener("click", function() {
+        _CTX.drawImage(_VIDEO, 0, 0, _VIDEO.videoWidth, _VIDEO.videoHeight);
+
+        document
+          .querySelector("#get-thumbnail")
+          .setAttribute("href", _CANVAS.toDataURL());
+        document
+          .querySelector("#get-thumbnail")
+          .setAttribute("download", "thumbnail.png");
+      });
+  },
   beforeMount() {},
 };
 </script>
 
 <style scoped>
-.myContainer {
-  /* Pour que le container de base prenne toute la page (-64px pour la taille de la toolbar) */
-  height: calc(100vh - 64px);
-  display: flex;
-  flex-wrap: wrap;
+body {
+  margin: 0;
 }
 
-.imgKeyframesContainer {
-  width: 20%;
-  height: 75%;
-  background-color: red;
-  padding: 8px;
+#video-demo-container {
+  width: 400px;
+  margin: 40px auto;
 }
 
-.imgPreviewContainer {
-  width: 80%;
-  height: 75%;
-  background-color: green;
+#main-video {
+  display: none;
+  max-width: 400px;
 }
 
-.configContainer {
-  width: 100%;
-  height: 25%;
-  background-color: blue;
+#thumbnail-container {
+  display: none;
+}
+
+#get-thumbnail {
+  display: none;
+}
+
+#video-canvas {
+  display: none;
+}
+
+#upload-button {
+  width: 150px;
+  display: block;
+  margin: 20px auto;
+}
+
+#file-to-upload {
+  display: none;
 }
 </style>
