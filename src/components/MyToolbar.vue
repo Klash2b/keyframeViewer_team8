@@ -1,7 +1,8 @@
 <template>
   <div>
-    <v-app-bar class="indigo" clipped-left app>
-      <v-toolbar-title @click="goHome" class="white--text">{{ $t("title") }}</v-toolbar-title>
+    <v-app-bar class="indigo white--text" clipped-left app>
+      <v-toolbar-title class="pa-2" style="cursor:pointer;" @click="goTo('/')">Accueil</v-toolbar-title>
+      <v-toolbar-title class="pa-2" style="cursor:pointer;" @click="goTo('/tests')">Tests</v-toolbar-title>
     </v-app-bar>
   </div>
 </template>
