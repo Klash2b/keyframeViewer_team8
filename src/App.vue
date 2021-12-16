@@ -3,7 +3,7 @@
     <myToolbar />
     <v-content>
       <v-slide-y-transition mode="out-in">
-        <v-container pa-0 fluid fill-height align-content-center align-center>
+        <v-container pa-0 fluid align-content-center align-center>
           <router-view></router-view>
         </v-container>
       </v-slide-y-transition>
