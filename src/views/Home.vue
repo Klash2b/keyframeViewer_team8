@@ -20,7 +20,7 @@
           :key="index"
           :src="img"
           class="ma-6"
-          style="cursor:pointer;"
+          style="cursor:pointer;min-width:60px"
           @click="displayImg(img)"
         />
       </div>
@@ -89,7 +89,7 @@
         ></v-slider> -->
 
         <v-range-slider
-          disabled
+          readonly
           v-model="slider3"
           label="Nombre de keyframes"
           max="20"
@@ -124,7 +124,9 @@ export default {
       for (var i = 1; i <= this.slider1; i++) {
         this.thumbnailsArray.push("https://picsum.photos/800/600?random=" + i);
       }
-      this.currFile = file;
+      if (isNaN(file) == true || file == null) {
+        this.currFile = file;
+      }
     },
     displayImg(img) {
       console.log(img);
@@ -147,7 +149,7 @@ export default {
 }
 
 .imgKeyframesContainer {
-  width: 35%;
+  width: 30%;
   height: 75%;
   background-color: #fafafa;
   padding: 30px;
@@ -155,17 +157,18 @@ export default {
 }
 
 .imgPreviewContainer {
-  width: 65%;
+  width: 70%;
   height: 75%;
   background-color: #fafafa;
 }
 
 .configContainer {
   display: flex;
-  border: 2px dotted black;
+  border-top: 2px solid grey;
   width: 100%;
   height: 25%;
   background-color: #fafafa;
+  overflow-x: hidden;
 }
 
 /* width */
