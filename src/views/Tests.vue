@@ -2,6 +2,16 @@
   <div id="video-demo-container">
     <button id="upload-button">Select MP4 Video</button>
     <input type="file" id="file-to-upload" accept="video/mp4" />
+    <!-- <v-file-input
+      id="file-to-upload"
+      type="file"
+      dense
+      counter
+      show-size
+      accept="video/*"
+      ref="loadedFile"
+      @change="checkFile"
+    ></v-file-input> -->
     <video id="main-video" controls>
       <source type="video/mp4" />
     </video>
@@ -27,12 +37,6 @@ export default {
     checkFile(file) {
       console.log(file);
       this.currFile = file;
-
-      document
-        .querySelector("#main-video source")
-        .setAttribute("src", URL.createObjectURL(file));
-      _VIDEO.load();
-      _VIDEO.style.display = "inline";
     },
   },
   mounted() {

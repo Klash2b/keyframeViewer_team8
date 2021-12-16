@@ -3,7 +3,7 @@
     <myToolbar />
     <v-content>
       <v-slide-y-transition mode="out-in">
-        <v-container pa-0 fluid align-content-center align-center>
+        <v-container pa-0 fluid fill-height align-content-center align-center>
           <router-view></router-view>
         </v-container>
       </v-slide-y-transition>
@@ -12,9 +12,15 @@
 </template>
 
 <script>
-import myToolbar from "@/components/MyToolbar"
+import myToolbar from "@/components/MyToolbar";
 export default {
-  name: 'app',
-  components: {myToolbar}
-}
+  name: "app",
+  components: { myToolbar },
+};
 </script>
+
+<style scoped>
+body {
+  overflow: hidden;
+}
+</style>

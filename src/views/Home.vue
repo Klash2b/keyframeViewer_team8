@@ -5,19 +5,99 @@
         dense
         counter
         show-size
-        truncate-length="50"
         accept="video/*"
         ref="loadedFile"
         @change="checkFile"
       ></v-file-input>
-      <div v-if="currFile != null">
+      <!-- <div v-if="currFile != null">
         <div>Nom : {{ this.currFile.name }}</div>
         <div>Taille : {{ (this.currFile.size / 1000000).toFixed(1) }} MB</div>
         <div>Type : {{ this.currFile.type }}</div>
+      </div> -->
+      <div v-if="currFile != null">
+        <v-img
+          v-for="(img, index) in thumbnailsArray"
+          :key="index"
+          :src="img"
+          class="ma-6"
+          style="cursor:pointer;"
+          @click="displayImg(img)"
+        />
       </div>
     </div>
-    <div class="imgPreviewContainer"></div>
-    <div class="configContainer"></div>
+    <div class="imgPreviewContainer">
+      <v-img
+        v-if="bigImgToDisplay != null"
+        :src="bigImgToDisplay"
+        contain
+        style="width:100%;height:100%;"
+      />
+    </div>
+    <div class="configContainer">
+      <div class="sliderContainer" style="width: 100%;height: 100%;">
+        <v-slider
+          v-model="slider1"
+          min="1"
+          max="20"
+          thumb-label
+          label="Nombre de keyframes"
+          @change="checkFile"
+          ><template v-slot:append>
+            <v-text-field
+              v-model="slider1"
+              class="mt-0 pt-0"
+              hide-details
+              single-line
+              type="number"
+              style="width: 60px"
+              thumb-label
+            ></v-text-field> </template
+        ></v-slider>
+      </div>
+
+      <div class="sliderContainer" style="width: 100%;height: 100%;">
+        <v-slider
+          disabled
+          v-model="slider2"
+          min="1"
+          max="20"
+          thumb-label
+          label="Nombre de keyframes"
+          ><template v-slot:append>
+            <v-text-field
+              v-model="slider2"
+              class="mt-0 pt-0"
+              hide-details
+              single-line
+              type="number"
+              style="width: 60px"
+            ></v-text-field> </template
+        ></v-slider>
+      </div>
+
+      <div class="sliderContainer" style="width: 100%;height: 100%;">
+        <!-- <v-slider v-model="slider3" min="0" max="20" label="Nombre de keyframes"
+          ><template v-slot:append>
+            <v-text-field
+              v-model="slider3"
+              class="mt-0 pt-0"
+              hide-details
+              single-line
+              type="number"
+              style="width: 60px"
+            ></v-text-field> </template
+        ></v-slider> -->
+
+        <v-range-slider
+          disabled
+          v-model="slider3"
+          label="Nombre de keyframes"
+          max="20"
+          min="-20"
+          thumb-label
+        ></v-range-slider>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -28,12 +108,27 @@ export default {
     return {
       myVar: false,
       currFile: null,
+      bigImgToDisplay: null,
+      thumbnailsArray: [],
+      slider1: 1,
+      slider2: 2,
+      slider3: [-10, 10],
     };
   },
   methods: {
     checkFile(file) {
       console.log(file);
+      console.log(this.slider1);
+
+      this.thumbnailsArray = [];
+      for (var i = 1; i <= this.slider1; i++) {
+        this.thumbnailsArray.push("https://picsum.photos/800/600?random=" + i);
+      }
       this.currFile = file;
+    },
+    displayImg(img) {
+      console.log(img);
+      this.bigImgToDisplay = img;
     },
   },
   mounted() {},
@@ -45,26 +140,53 @@ export default {
 .myContainer {
   /* Pour que le container de base prenne toute la page (-64px pour la taille de la toolbar) */
   height: calc(100vh - 64px);
+  width: 100vw;
   display: flex;
   flex-wrap: wrap;
+  overflow-y: hidden;
 }
 
 .imgKeyframesContainer {
-  width: 20%;
+  width: 35%;
   height: 75%;
-  background-color: red;
-  padding: 8px;
+  background-color: #fafafa;
+  padding: 30px;
+  overflow-y: scroll;
 }
 
 .imgPreviewContainer {
-  width: 80%;
+  width: 65%;
   height: 75%;
-  background-color: green;
+  background-color: #fafafa;
 }
 
 .configContainer {
+  display: flex;
+  border: 2px dotted black;
   width: 100%;
   height: 25%;
-  background-color: blue;
+  background-color: #fafafa;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: grey;
+  border-radius: 5px;
+}
+
+.sliderContainer {
+  display: flex;
+  align-items: flex-end;
 }
 </style>
