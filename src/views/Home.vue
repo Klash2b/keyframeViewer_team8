@@ -1,6 +1,21 @@
 <template>
   <div class="myContainer">
-    <div class="imgKeyframesContainer"></div>
+    <div class="imgKeyframesContainer">
+      <v-file-input
+        dense
+        counter
+        show-size
+        truncate-length="50"
+        accept="video/*"
+        ref="loadedFile"
+        @change="checkFile"
+      ></v-file-input>
+      <div v-if="currFile != null">
+        <div>Nom : {{ this.currFile.name }}</div>
+        <div>Taille : {{ (this.currFile.size / 1000000).toFixed(1) }} MB</div>
+        <div>Type : {{ this.currFile.type }}</div>
+      </div>
+    </div>
     <div class="imgPreviewContainer"></div>
     <div class="configContainer"></div>
   </div>
@@ -12,12 +27,17 @@ export default {
   data() {
     return {
       myVar: false,
+      currFile: null,
     };
   },
   methods: {
-    myMethod() {},
+    checkFile(file) {
+      console.log(file);
+      this.currFile = file;
+    },
   },
   mounted() {},
+  beforeMount() {},
 };
 </script>
 
@@ -33,6 +53,7 @@ export default {
   width: 20%;
   height: 75%;
   background-color: red;
+  padding: 8px;
 }
 
 .imgPreviewContainer {
