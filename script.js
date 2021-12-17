@@ -2,6 +2,7 @@ const frames = [];
 const button = document.querySelector("button");
 const select = document.querySelector("select");
 const canvas = document.querySelector("canvas");
+const inputVid = document.querySelector("input");
 const ctx = canvas.getContext("2d");
 
 async function onClick(evt) {
@@ -28,7 +29,6 @@ async function onClick(evt) {
     } else {
         console.error("your browser doesn't support this API yet");
     }
-
     return frames;
 };
 
@@ -40,11 +40,21 @@ select.onchange = (evt) => {
 };
 
 async function getVideoElement() {
+
+    var file = document.querySelector('input[type=file]').files[0];
+    var reader = new FileReader();
+
+    reader.addEventListener("load", function (evt) {
+        // console.log( reader.result );
+        const url = reader.readAsText(file);
+        console.log(url);
+    }, false);
+
+
     const video = document.createElement("video");
-    // video.crossOrigin = "anonymous";
     video.muted = true;
     video.type = "video/mp4";
-    video.src = "../Jellysmack_videos_360p/-h3hDZa5M2w_yt_1080p.mp4";
+    video.src = url;
     document.body.append(video);
     await video.play();
     return video;
