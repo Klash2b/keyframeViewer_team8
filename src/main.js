@@ -5,6 +5,7 @@ import './plugins/vuetify-extra';
 import App from './App.vue';
 import router from './router/index';
 import i18n from './i18n';
+import $ from 'jquery'
 
 Vue.config.productionTip = false
 
