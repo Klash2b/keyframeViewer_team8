@@ -17,6 +17,7 @@ async function onClick(evt) {
             if (!video.ended && !stopped) {
                 video.requestVideoFrameCallback(drawingLoop);
             } else {
+                video.pause();
                 select.disabled = false;
             }
         };
