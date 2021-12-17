@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>testest</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width">
+		<link rel="stylesheet" href="libs/twitter-bootstrap/bootstrap.min.css">
+		<link rel="stylesheet" href="demoassets/resemble.css?v1">
+	</head>
+	<body>
+		<div class="container">
+				<div class="row">
+					<div class="span12">
+						<div class="row">	
+							<div class="span6">
+								<div id="dropzone1" class="small-drop-zone">
+									 image 1
+								</div>
+								<div id="dropzone2" class="small-drop-zone">
+										 Image 2
+								</div>
+							</div>
+							<div class="btn-group buttons" >
+								<button class="btn" id="raw">Ignore nothing</button>
+								<button class="btn active" id="less">Ignore less</button>
+								<button class="btn" id="colors">Ignore colors</button>
+								<button class="btn" id="antialiasing">Ignore antialiasing</button>
+								<button class="btn" id="alpha">Ignore alpha</button>
+							</div>
+								<div id="diff-results" style="display:none;">
+									<p>
+										<strong>La seconde image est <span id="mismatch"></span>% différentes comparer au premier.
+										<span id="differentdimensions" style="display:none;">Dimenssion différentes.</span></strong>
+									</div>
+
+								<p id="thesame" style="display:none;">
+									<strong>These images are the same!</strong>
+								</p>
+							</div>
+						</div>
+					</div>
+		</div>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script src="resemble.js"></script>
+		<script src="demoassets/main.js"></script>
+	</body>
+</html>
