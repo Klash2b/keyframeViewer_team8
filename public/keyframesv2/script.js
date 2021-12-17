@@ -64,7 +64,7 @@ async function getVideoElement() {
     const video = document.createElement("video");
     video.muted = true;
     video.type = "video/mp4";
-    video.src = "C:/Users/matte/Desktop/Hackathon/myTeam/keyframeViewer_team8/Jellysmack_videos_360p/A7Vto3J7QPE_yt_1080p.mp4";
+    video.src = "../video.mp4";
     document.body.append(video);
     await video.play();
     return video;
